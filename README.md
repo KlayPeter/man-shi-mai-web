@@ -1,36 +1,125 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 面试汪 - AI 面试平台 (Next.js)
 
-## Getting Started
+这是面试汪的 Next.js 版本，基于 React 和 TypeScript 构建。
 
-First, run the development server:
+## 技术栈
+
+- **框架**: Next.js 16 (App Router)
+- **语言**: TypeScript
+- **样式**: Tailwind CSS 4
+- **状态管理**: Zustand
+- **HTTP 客户端**: Axios
+- **日期处理**: Day.js
+
+## 项目结构
+
+```
+man-shi-web/
+├── app/                    # Next.js App Router 页面
+│   ├── layout.tsx         # 根布局
+│   ├── page.tsx           # 首页
+│   ├── interview/         # 面试相关页面
+│   ├── login/             # 登录页面
+│   └── ...
+├── components/            # React 组件
+│   ├── home/             # 首页组件
+│   ├── AppHeader.tsx     # 头部导航
+│   ├── Footer.tsx        # 页脚
+│   └── DefaultLayout.tsx # 默认布局
+├── stores/               # Zustand 状态管理
+│   ├── userStore.ts      # 用户状态
+│   └── uiStore.ts        # UI 状态
+├── api/                  # API 接口
+│   ├── user.ts           # 用户相关接口
+│   └── interview.ts      # 面试相关接口
+├── lib/                  # 工具库
+│   └── request.ts        # Axios 封装
+├── constants/            # 常量配置
+│   └── seo.ts            # SEO 配置
+└── public/               # 静态资源
+
+```
+
+## 开始使用
+
+### 安装依赖
+
+```bash
+npm install
+```
+
+### 开发模式
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+访问 [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 构建生产版本
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## 核心功能
 
-To learn more about Next.js, take a look at the following resources:
+### 三大核心服务
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **面试押题** - 基于 JD 和简历智能预测高频面试题
+2. **专项面试模拟** - 1v1 深度模拟面试训练
+3. **行测+HR面试** - 综合素质全面评估
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 主要特性
 
-## Deploy on Vercel
+- ✅ 响应式设计，支持移动端
+- ✅ SEO 优化，完整的 meta 标签配置
+- ✅ 用户认证与状态管理
+- ✅ API 请求拦截与错误处理
+- ✅ 像素级还原 Nuxt 版本设计
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 环境变量
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+创建 `.env.local` 文件：
+
+```env
+NEXT_PUBLIC_API_BASE_URL=/dev-api
+NEXT_PUBLIC_RESUME_PREVIEW_URL=https://lgdsunday.club/
+```
+
+## API 代理配置
+
+开发环境下，`/dev-api` 会被代理到 `http://localhost:8888`，配置在 `next.config.ts` 中。
+
+## 与 Nuxt 版本的对应关系
+
+| Nuxt 概念 | Next.js 对应 |
+|----------|-------------|
+| `pages/` | `app/` (App Router) |
+| `components/` | `components/` |
+| `composables/` | `hooks/` (自定义 hooks) |
+| `stores/` (Pinia) | `stores/` (Zustand) |
+| `plugins/` | `lib/` |
+| `nuxt.config.js` | `next.config.ts` |
+| `useRuntimeConfig()` | `process.env.NEXT_PUBLIC_*` |
+| `useFetch()` | `axios` + custom hooks |
+
+## 部署
+
+### Vercel (推荐)
+
+```bash
+vercel
+```
+
+### 其他平台
+
+```bash
+npm run build
+npm start
+```
+
+## License
+
+MIT
