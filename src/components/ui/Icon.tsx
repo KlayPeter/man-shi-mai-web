@@ -1,0 +1,135 @@
+'use client'
+
+import React from 'react'
+import { cn } from '@/utils'
+import {
+  Sparkles, FileText, Zap, MessageSquare, CheckCircle, BadgeCheck,
+  Lightbulb, User, Users, UserCircle, Gift, PieChart, BarChart3,
+  ShieldCheck, ExternalLink, ArrowLeft, RefreshCw, LogOut,
+  Mail, QrCode, ChevronDown, ChevronUp, ChevronRight, ChevronLeft,
+  X, Search, Clipboard, ClipboardList, Folder, Plus, Pencil, Eye,
+  Trash2, Home, GraduationCap, Building2, Clock,
+  CreditCard, DollarSign, Info, AlertCircle, AlertTriangle,
+  ArrowRight, ArrowUpRight, Lock, BookOpen, Star, Trophy,
+  MessageCircle, Brain, Target, TrendingUp, FileCheck, Send,
+  Loader2, CheckSquare, Square, Upload, Download, Copy,
+  RotateCcw, Play, Pause, StopCircle, Volume2, VolumeX,
+  Settings, Bell, LogIn, UserPlus, HelpCircle, Phone,
+  MapPin, Calendar, Tag, Hash, Link, Image, Video,
+  Mic, MicOff, Camera, Monitor, Smartphone, Tablet,
+  Menu, Briefcase, ArrowDown, ArrowUp, Map, Wallet,
+  type LucideIcon
+} from 'lucide-react'
+
+interface IconProps {
+  name: string
+  className?: string
+}
+
+const iconMap: Record<string, LucideIcon> = {
+  'i-heroicons-sparkles': Sparkles,
+  'i-heroicons-document-text': FileText,
+  'i-heroicons-bolt': Zap,
+  'i-heroicons-chat-bubble-left-right': MessageSquare,
+  'i-heroicons-chat-bubble-bottom-center-text': MessageCircle,
+  'i-heroicons-check-circle': CheckCircle,
+  'i-heroicons-check-badge': BadgeCheck,
+  'i-heroicons-check': CheckCircle,
+  'i-heroicons-light-bulb': Lightbulb,
+  'i-heroicons-user': User,
+  'i-heroicons-user-group': Users,
+  'i-heroicons-users': Users,
+  'i-heroicons-user-circle': UserCircle,
+  'i-heroicons-gift': Gift,
+  'i-heroicons-chart-pie': PieChart,
+  'i-heroicons-chart-bar': BarChart3,
+  'i-heroicons-shield-check': ShieldCheck,
+  'i-heroicons-arrow-top-right-on-square': ExternalLink,
+  'i-heroicons-arrow-left': ArrowLeft,
+  'i-heroicons-arrow-right': ArrowRight,
+  'i-heroicons-arrow-path': RefreshCw,
+  'i-heroicons-arrow-left-on-rectangle': LogOut,
+  'i-heroicons-arrow-left-on-rectangle-solid': LogOut,
+  'i-heroicons-envelope': Mail,
+  'i-heroicons-qr-code': QrCode,
+  'i-heroicons-chevron-down': ChevronDown,
+  'i-heroicons-chevron-up': ChevronUp,
+  'i-heroicons-chevron-right': ChevronRight,
+  'i-heroicons-chevron-left': ChevronLeft,
+  'i-heroicons-x-mark': X,
+  'i-heroicons-magnifying-glass': Search,
+  'i-heroicons-clipboard-document': Clipboard,
+  'i-heroicons-clipboard-document-list': ClipboardList,
+  'i-heroicons-folder': Folder,
+  'i-heroicons-plus': Plus,
+  'i-heroicons-pencil': Pencil,
+  'i-heroicons-pencil-square': Pencil,
+  'i-heroicons-eye': Eye,
+  'i-heroicons-trash': Trash2,
+  'i-heroicons-home': Home,
+  'i-heroicons-academic-cap': GraduationCap,
+  'i-heroicons-building-office-2': Building2,
+  'i-heroicons-clock': Clock,
+  'i-heroicons-credit-card': CreditCard,
+  'i-heroicons-currency-dollar': DollarSign,
+  'i-heroicons-information-circle': Info,
+  'i-heroicons-exclamation-circle': AlertCircle,
+  'i-heroicons-exclamation-triangle': AlertTriangle,
+  'i-heroicons-lock-closed': Lock,
+  'i-heroicons-book-open': BookOpen,
+  'i-heroicons-star': Star,
+  'i-heroicons-trophy': Trophy,
+  'i-heroicons-brain': Brain,
+  'i-heroicons-target': Target,
+  'i-heroicons-trending-up': TrendingUp,
+  'i-heroicons-file-check': FileCheck,
+  'i-heroicons-send': Send,
+  'i-heroicons-loader': Loader2,
+  'i-heroicons-upload': Upload,
+  'i-heroicons-download': Download,
+  'i-heroicons-copy': Copy,
+  'i-heroicons-rotate-ccw': RotateCcw,
+  'i-heroicons-play': Play,
+  'i-heroicons-pause': Pause,
+  'i-heroicons-stop-circle': StopCircle,
+  'i-heroicons-volume': Volume2,
+  'i-heroicons-volume-x': VolumeX,
+  'i-heroicons-settings': Settings,
+  'i-heroicons-bell': Bell,
+  'i-heroicons-login': LogIn,
+  'i-heroicons-user-plus': UserPlus,
+  'i-heroicons-question-mark-circle': HelpCircle,
+  'i-heroicons-phone': Phone,
+  'i-heroicons-map-pin': MapPin,
+  'i-heroicons-calendar': Calendar,
+  'i-heroicons-tag': Tag,
+  'i-heroicons-hashtag': Hash,
+  'i-heroicons-link': Link,
+  'i-heroicons-photo': Image,
+  'i-heroicons-video-camera': Video,
+  'i-heroicons-microphone': Mic,
+  'i-heroicons-microphone-slash': MicOff,
+  'i-heroicons-camera': Camera,
+  'i-heroicons-computer-desktop': Monitor,
+  'i-heroicons-device-phone-mobile': Smartphone,
+  'i-heroicons-device-tablet': Tablet,
+  'i-heroicons-bars-3': Menu,
+  'i-heroicons-briefcase': Briefcase,
+  'i-heroicons-arrow-down': ArrowDown,
+  'i-heroicons-arrow-up': ArrowUp,
+  'i-heroicons-map': Map,
+  'i-heroicons-presentation-chart-bar': BarChart3,
+  'i-heroicons-wallet': Wallet,
+}
+
+const Icon: React.FC<IconProps> = ({ name, className }) => {
+  const IconComponent = iconMap[name]
+
+  if (!IconComponent) {
+    return <span className={cn('inline-block w-5 h-5', className)} />
+  }
+
+  return <IconComponent className={cn('w-5 h-5', className)} />
+}
+
+export default Icon

@@ -1,0 +1,48 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://mianshiwangoffer.com
+
+# Sitemaps
+Sitemap: https://mianshiwangoffer.com/sitemap.xml
+
+# 禁止爬取特定路径
+Disallow: /api/
+Disallow: /admin/
+Disallow: /_next/
+Disallow: /static/
+
+# 百度爬虫特殊规则
+User-agent: Baiduspider
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# Google 爬虫特殊规则
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# 必应爬虫特殊规则  
+User-agent: bingbot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# 360 爬虫特殊规则
+User-agent: 360Spider
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# 搜狗爬虫特殊规则
+User-agent: Sogou web spider
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# 爬取频率限制（每秒最多1次请求）
+Crawl-delay: 1
