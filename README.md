@@ -1,125 +1,72 @@
-# 面试汪 - AI 面试平台 (Next.js)
+# 面试麦 - AI智能面试平台
 
-这是面试汪的 Next.js 版本，基于 React 和 TypeScript 构建。
+面试麦是专业的AI智能面试平台，提供程序员、产品经理、设计师等各职业的智能面试训练、模拟面试和面试题库。
 
 ## 技术栈
 
-- **框架**: Next.js 16 (App Router)
-- **语言**: TypeScript
-- **样式**: Tailwind CSS 4
+- **框架**: Next.js 14 (App Router)
+- **UI**: React 18 + TypeScript
+- **样式**: TailwindCSS 4
 - **状态管理**: Zustand
 - **HTTP 客户端**: Axios
-- **日期处理**: Day.js
+- **其他**: dayjs, marked, qrcode, uuid
+
+## 开发
+
+```bash
+# 安装依赖
+npm install
+
+# 启动开发服务器
+npm run dev
+
+# 构建生产版本
+npm run build
+
+# 启动生产服务器
+npm start
+```
 
 ## 项目结构
 
 ```
-man-shi-web/
-├── app/                    # Next.js App Router 页面
-│   ├── layout.tsx         # 根布局
-│   ├── page.tsx           # 首页
-│   ├── interview/         # 面试相关页面
-│   ├── login/             # 登录页面
-│   └── ...
-├── components/            # React 组件
-│   ├── home/             # 首页组件
-│   ├── AppHeader.tsx     # 头部导航
-│   ├── Footer.tsx        # 页脚
-│   └── DefaultLayout.tsx # 默认布局
-├── stores/               # Zustand 状态管理
-│   ├── userStore.ts      # 用户状态
-│   └── uiStore.ts        # UI 状态
-├── api/                  # API 接口
-│   ├── user.ts           # 用户相关接口
-│   └── interview.ts      # 面试相关接口
-├── lib/                  # 工具库
-│   └── request.ts        # Axios 封装
-├── constants/            # 常量配置
-│   └── seo.ts            # SEO 配置
-└── public/               # 静态资源
-
+src/
+├── app/              # Next.js App Router 页面
+├── components/       # React 组件
+│   ├── home/        # 首页组件
+│   ├── layouts/     # 布局组件
+│   └── ui/          # UI 组件
+├── constants/        # 常量配置
+├── stores/          # Zustand 状态管理
+├── utils/           # 工具函数
+└── api/             # API 服务
 ```
 
-## 开始使用
-
-### 安装依赖
-
-```bash
-npm install
-```
-
-### 开发模式
-
-```bash
-npm run dev
-```
-
-访问 [http://localhost:3000](http://localhost:3000)
-
-### 构建生产版本
-
-```bash
-npm run build
-npm start
-```
-
-## 核心功能
+## 功能特性
 
 ### 三大核心服务
 
-1. **面试押题** - 基于 JD 和简历智能预测高频面试题
-2. **专项面试模拟** - 1v1 深度模拟面试训练
-3. **行测+HR面试** - 综合素质全面评估
+1. **面试押题** - 3-5分钟快速生成，命中率80%+
+2. **专项面试模拟** - 约1小时，支持语音/文字多模态
+3. **行测+HR面试** - 约45分钟，双重评估维度
 
-### 主要特性
+### 主要功能
 
-- ✅ 响应式设计，支持移动端
-- ✅ SEO 优化，完整的 meta 标签配置
-- ✅ 用户认证与状态管理
-- ✅ API 请求拦截与错误处理
-- ✅ 像素级还原 Nuxt 版本设计
+- AI 智能面试训练
+- 模拟面试场景
+- 面试题库
+- 结构化评估报告
+- STAR 模型评估
+- 技能矩阵分析
+- 雷达图可视化
 
 ## 环境变量
-
-创建 `.env.local` 文件：
 
 ```env
 NEXT_PUBLIC_API_BASE_URL=/dev-api
 NEXT_PUBLIC_RESUME_PREVIEW_URL=https://lgdsunday.club/
 ```
 
-## API 代理配置
-
-开发环境下，`/dev-api` 会被代理到 `http://localhost:8888`，配置在 `next.config.ts` 中。
-
-## 与 Nuxt 版本的对应关系
-
-| Nuxt 概念 | Next.js 对应 |
-|----------|-------------|
-| `pages/` | `app/` (App Router) |
-| `components/` | `components/` |
-| `composables/` | `hooks/` (自定义 hooks) |
-| `stores/` (Pinia) | `stores/` (Zustand) |
-| `plugins/` | `lib/` |
-| `nuxt.config.js` | `next.config.ts` |
-| `useRuntimeConfig()` | `process.env.NEXT_PUBLIC_*` |
-| `useFetch()` | `axios` + custom hooks |
-
-## 部署
-
-### Vercel (推荐)
-
-```bash
-vercel
-```
-
-### 其他平台
-
-```bash
-npm run build
-npm start
-```
-
 ## License
 
-MIT
+All rights reserved.

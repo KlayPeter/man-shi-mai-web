@@ -1,34 +1,41 @@
 {
-  "name": "man-shi-web",
-  "version": "0.1.0",
+  "name": "wwmianshi",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 8000",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint",
-    "type-check": "tsc --noEmit"
+    "start": "next start -p 8000",
+    "lint": "next lint"
   },
   "dependencies": {
     "ali-oss": "^6.23.0",
-    "axios": "^1.13.5",
-    "dayjs": "^1.11.19",
-    "marked": "^17.0.3",
-    "next": "16.1.6",
+    "axios": "^1.11.0",
+    "clsx": "^2.1.0",
+    "dayjs": "^1.11.13",
+    "file-saver": "^2.0.5",
+    "lucide-react": "^0.575.0",
+    "marked": "^17.0.1",
+    "next": "^14.2.0",
     "qrcode": "^1.5.4",
-    "react": "19.2.3",
-    "react-dom": "19.2.3",
-    "uuid": "^13.0.0",
-    "zustand": "^5.0.11"
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "tailwind-merge": "^2.2.0",
+    "uuid": "^11.1.0",
+    "zustand": "^4.5.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.1.6",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/typography": "^0.5.10",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.17",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.0",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.0.0"
   }
 }

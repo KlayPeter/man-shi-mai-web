@@ -1,0 +1,22 @@
+{
+  "name": "面试麦 - AI智能面试平台",
+  "short_name": "面试麦",
+  "description": "专业的AI智能面试平台，提供押题、模拟、行测三大核心服务",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#47b656",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
