@@ -9,6 +9,7 @@ import { useUserStore } from '@/stores/userStore'
 import { toast } from '@/stores/toastStore'
 import { ssePost } from '@/lib/sse'
 import request from '@/lib/request'
+import { getUserInfoAPI } from '@/api/user'
 import Icon from '@/components/ui/Icon'
 import InterviewConfirmModal from '@/components/interview/InterviewConfirmModal'
 import VoiceInputModal from '@/components/interview/VoiceInputModal'
@@ -104,6 +105,15 @@ export default function InterviewPageContent() {
     router.push(`/interview?${params.toString()}`)
   }
 
+  const refreshUserInfo = async () => {
+    try {
+      const userInfo: any = await getUserInfoAPI()
+      userStore.updateUserInfo(userInfo)
+    } catch (e) {
+      console.error('刷新用户信息失败：', e)
+    }
+  }
+
   useEffect(() => {
     // 手动触发 zustand persist rehydration
     if (typeof window !== 'undefined') {
@@ -119,7 +129,6 @@ export default function InterviewPageContent() {
 
       // 优先检查独立的 active-interview localStorage
       const activeInterviewStr = localStorage.getItem('active-interview')
-      console.log('检查独立存储的活跃面试：', activeInterviewStr)
 
       if (activeInterviewStr) {
         try {
@@ -128,22 +137,76 @@ export default function InterviewPageContent() {
 
           // 处理押题恢复
           if (sid && sid.startsWith('resume-quiz-') && sType === 'resume' && serviceType === 'resume') {
-            console.log('发现未完成的押题生成')
-            clearActiveInterview()
-            toast({
-              title: '检测到未完成的押题生成',
-              description: '生成过程已中断，请重新开始押题',
-              color: 'yellow'
-            })
-            if (!searchParams.get('step')) {
-              updateQuery({ step: 'input' })
+            const timeDiff = Date.now() - (activeInterview.timestamp || 0)
+            const isRecent = timeDiff < 10 * 60 * 1000 // 10分钟内
+
+            if (isRecent) {
+              // 恢复岗位信息到 store
+              if (activeInterview.positionData) {
+                const { company, positionName, minSalary, maxSalary, jd } = activeInterview.positionData
+                // 确保薪资值在有效范围内 (0-9999)
+                const validMinSalary = Math.min(9999, Math.max(0, Number(minSalary) || 0))
+                const validMaxSalary = Math.min(9999, Math.max(0, Number(maxSalary) || 0))
+
+                // 构建完整的岗位数据
+                const positionData = {
+                  ...interviewStore.selectedPosition,
+                  company,
+                  positionName,
+                  minSalary: validMinSalary,
+                  maxSalary: validMaxSalary,
+                  jd
+                }
+
+                interviewStore.setSelectedPosition(positionData)
+              }
+              if (activeInterview.resumeId) {
+                interviewStore.setResumeId(activeInterview.resumeId)
+              }
+
+              // 清除旧状态
+              clearActiveInterview()
+
+              toast({
+                title: '检测到中断的押题生成',
+                description: '正在自动重新生成...',
+                color: 'blue'
+              })
+
+              // 延迟执行以确保 store 更新完成
+              setTimeout(() => {
+                // 验证岗位数据是否已恢复
+                const currentState = useInterviewStore.getState()
+                if (!currentState.selectedPosition?.positionName) {
+                  toast({
+                    title: '恢复失败',
+                    description: '岗位信息丢失，请重新选择岗位',
+                    color: 'red'
+                  })
+                  router.push('/interview/start')
+                  return
+                }
+
+                if (step !== 'progress') {
+                  updateQuery({ step: 'progress' })
+                }
+                // 触发重新生成
+                setTimeout(() => startResumeQuiz(), 500)
+              }, 500)
+              return
+            } else {
+              // 超过10分钟，认为已失败
+              clearActiveInterview()
+              toast({
+                title: '押题生成已超时',
+                description: '请重新开始押题',
+                color: 'yellow'
+              })
             }
-            return
           }
 
           // 处理面试恢复
           if (sid && rid && (sType === 'special' || sType === 'behavior') && sType === serviceType) {
-            console.log('发现未完成的面试（从独立存储）：', activeInterview)
             useInterviewStore.getState().setSessionId(sid)
             useInterviewStore.getState().setResultId(rid)
             useInterviewStore.getState().setInterviewStatus('in_progress')
@@ -157,16 +220,9 @@ export default function InterviewPageContent() {
 
       // 备用检查：从 Zustand store 检查
       const currentState = useInterviewStore.getState()
-      console.log('检查 Zustand store 中的面试状态：', {
-        sessionId: currentState.sessionId,
-        status: currentState.interviewStatus,
-        resultId: currentState.resultId,
-        serviceType
-      })
 
       if (currentState.sessionId &&
           (currentState.interviewStatus === 'in_progress' || currentState.interviewStatus === 'starting')) {
-        console.log('发现未完成的面试（从 Zustand store）')
         updateQuery({ step: 'interview', resultId: currentState.resultId || '', restore: 'true' })
         return
       }
@@ -233,6 +289,7 @@ export default function InterviewPageContent() {
       setCurrentResultId(rid)
       if (step !== 'complete') updateQuery({ step: 'complete' })
     } catch (e: any) {
+      console.error('加载历史记录失败：', e)
       toast({ title: '加载历史记录失败', description: e.message, color: 'red' })
     }
   }
@@ -250,13 +307,9 @@ export default function InterviewPageContent() {
       // 从后端获取面试历史数据
       const res: any = await request.get(`/interview/mock/history/${rid}`)
 
-      console.log('后端返回的数据：', res)
-      console.log('sessionState:', res.sessionState)
-      console.log('conversationHistory:', res.sessionState?.conversationHistory)
-
       // 从 sessionState 恢复完整的对话历史
-      if (res.sessionState?.conversationHistory) {
-        // 只清空消息，不重置其他状态
+      if (res.sessionState?.conversationHistory && res.sessionState.conversationHistory.length > 0) {
+        // 只在有对话历史时才清空并恢复
         const store = useInterviewStore.getState()
         store.messages.length = 0
 
@@ -267,19 +320,16 @@ export default function InterviewPageContent() {
           return timeA - timeB
         })
 
-        console.log('排序后的消息：', sortedHistory)
-
         // 恢复对话历史
         sortedHistory.forEach((msg: any, index: number) => {
-          console.log(`恢复消息 ${index}:`, { role: msg.role, content: msg.content?.substring(0, 50) })
           if (msg.role && msg.content) {
             const role = msg.role === 'assistant' ? 'interviewer' :
                         msg.role === 'user' ? 'candidate' : msg.role
             useInterviewStore.getState().addMessage(role, msg.content)
           }
         })
-
-        console.log('恢复后的messages:', useInterviewStore.getState().messages)
+      } else {
+        console.warn('对话历史为空，保留当前消息')
       }
 
       // 恢复面试状态
@@ -377,19 +427,35 @@ export default function InterviewPageContent() {
     if (timerRef.current) clearInterval(timerRef.current)
     timerRef.current = setInterval(() => setElapsedTime(t => t + 1), 1000)
 
+    // 获取并验证薪资值，确保在有效范围内
+    const rawMinSalary = interviewStore.selectedPosition?.minSalary
+    const rawMaxSalary = interviewStore.selectedPosition?.maxSalary
+    const validMinSalary = Math.min(9999, Math.max(0, Number(rawMinSalary) || 0))
+    const validMaxSalary = Math.min(9999, Math.max(0, Number(rawMaxSalary) || 0))
+
     const params = {
       resumeId: interviewStore.resumeId,
       resumeContent: interviewStore.resumeText || resumeText,
       company: interviewStore.selectedPosition?.company || '未指定公司',
       positionName: interviewStore.selectedPosition?.positionName || '',
-      minSalary: interviewStore.selectedPosition?.minSalary || '',
-      maxSalary: interviewStore.selectedPosition?.maxSalary || '',
+      minSalary: validMinSalary,
+      maxSalary: validMaxSalary,
       jd: interviewStore.selectedPosition?.jd || '',
       requestId: crypto.randomUUID()
     }
 
-    // 保存押题进行状态
-    saveActiveInterview('resume-quiz-' + params.requestId, 'resume-quiz', serviceType)
+    // 保存押题进行状态，包含岗位信息（保存数字类型的薪资）
+    const currentPosition = interviewStore.selectedPosition
+    saveActiveInterview('resume-quiz-' + params.requestId, 'resume-quiz', serviceType, {
+      positionData: {
+        company: currentPosition?.company || '',
+        positionName: currentPosition?.positionName || '',
+        minSalary: Number(currentPosition?.minSalary) || 0,
+        maxSalary: Number(currentPosition?.maxSalary) || 0,
+        jd: currentPosition?.jd || ''
+      },
+      resumeId: params.resumeId
+    })
 
     const connection = ssePost('/interview/resume/quiz/stream', params, {
       callbacks: {
@@ -406,6 +472,7 @@ export default function InterviewPageContent() {
             setPredictionSummary(data.data?.summary || '')
             setResumeQuizComplete(true)
             clearActiveInterview()
+            refreshUserInfo() // 刷新用户信息以更新剩余次数
             updateQuery({ step: 'complete', resultId: rid })
           } else if (data.type === 'complete') {
             setResumeQuizComplete(true)
@@ -449,15 +516,12 @@ export default function InterviewPageContent() {
       jd: currentState.selectedPosition?.jd || ''
     }
 
-    console.log('开始面试，发送参数：', params)
-
     let lastInterviewerMessage = ''
     interviewStore.setInterviewStatus('in_progress')
     const connection = ssePost('/interview/mock/start', params, {
       callbacks: {
         onMessage: (data) => {
           const { type, content, resultId: rid, sessionId: sid, interviewerName } = data
-          console.log('收到SSE消息：', { type, rid, sid, interviewerName })
           if (type === 'start') {
             if (rid) { interviewStore.setResultId(rid); setCurrentResultId(rid); updateQuery({ step: 'interview', resultId: rid }) }
             if (sid) interviewStore.setSessionId(sid)
@@ -477,6 +541,7 @@ export default function InterviewPageContent() {
             interviewStore.setInterviewEventType('end')
             interviewStore.setInterviewStatus('ended')
             clearActiveInterview() // 清除活跃面试状态
+            refreshUserInfo() // 刷新用户信息以更新剩余次数
             if (lastInterviewerMessage) {
               speechSynthesis.handleStreamText(lastInterviewerMessage, true)
             }
@@ -498,13 +563,6 @@ export default function InterviewPageContent() {
   const sendAnswer = useCallback(async (answer: string) => {
     // 使用 getState() 获取最新的 store 值
     const currentState = useInterviewStore.getState()
-
-    console.log('尝试发送消息：', {
-      answer: answer.substring(0, 50),
-      sessionId: currentState.sessionId,
-      status: currentState.interviewStatus,
-      canSend: currentState.interviewStatus === 'in_progress'
-    })
 
     if (!answer.trim() || !currentState.sessionId) {
       toast({ title: '发送失败', description: '消息不能为空或会话ID不存在', color: 'yellow' })
@@ -549,6 +607,7 @@ export default function InterviewPageContent() {
             lastInterviewerMessage = content || ''
             interviewStore.setInterviewEventType('end')
             interviewStore.setInterviewStatus('ended')
+            refreshUserInfo() // 刷新用户信息以更新剩余次数
             if (lastInterviewerMessage) {
               speechSynthesis.handleStreamText(lastInterviewerMessage, true)
             }
@@ -593,13 +652,14 @@ export default function InterviewPageContent() {
   }
 
   // 保存活跃面试状态到独立的 localStorage
-  const saveActiveInterview = (sessionId: string, resultId: string, serviceType: string) => {
+  const saveActiveInterview = (sessionId: string, resultId: string, serviceType: string, extraData?: any) => {
     if (typeof window === 'undefined') return
     localStorage.setItem('active-interview', JSON.stringify({
       sessionId,
       resultId,
       serviceType,
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      ...extraData
     }))
   }
 
@@ -1057,7 +1117,7 @@ export default function InterviewPageContent() {
   }
 
   if (step === 'interview') {
-    const canSend = interviewStatus === 'in_progress' && interviewStatus !== 'ended'
+    const canSend = interviewStatus === 'in_progress'
     const isEnded = interviewStatus === 'ended'
 
     return (

@@ -78,6 +78,7 @@ export default function ReportPageContent() {
   const [reportData, setReportData] = useState<ReportData>(defaultReport)
   const [loading, setLoading] = useState(true)
   const [showTrainingModal, setShowTrainingModal] = useState(false)
+  const [isGenerating, setIsGenerating] = useState(false)
 
   useEffect(() => {
     if (!resultId) {
@@ -93,16 +94,26 @@ export default function ReportPageContent() {
       setLoading(true)
       const res = await request.get(`/interview/analysis/report/${resultId}`)
       setReportData(res as unknown as ReportData)
+      setIsGenerating(false)
+      setLoading(false)
     } catch (err: any) {
-      const isGenerating = err?.message?.includes('生成') || err?.message?.includes('报告')
-      if (isGenerating) {
-        toast({ title: '报告生成中', description: '预计1-2分钟，正在自动重试...', color: 'yellow' })
+      // 检查多种可能的错误消息位置
+      const errorMsg = err?.response?.data?.message || err?.message || err?.toString() || ''
+      const isReportGenerating = errorMsg.includes('生成') || errorMsg.includes('报告') || errorMsg.includes('GENERATING')
+
+      if (isReportGenerating) {
+        setIsGenerating(true)
+        // 显示友好的提示信息
+        toast({
+          title: '评估报告生成中',
+          description: errorMsg || '报告正在生成，预计1-2分钟，系统将自动刷新',
+          color: 'blue'
+        })
         setTimeout(() => fetchReport(), 5000)
       } else {
-        toast({ title: '获取报告失败', description: err?.message || '请稍后重试', color: 'red' })
+        setLoading(false)
+        toast({ title: '获取报告失败', description: errorMsg || '请稍后重试', color: 'red' })
       }
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -132,7 +143,12 @@ export default function ReportPageContent() {
       <div className="h-full flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <Icon name="i-heroicons-arrow-path" className="w-10 h-10 text-primary-500 animate-spin" />
-          <p className="text-slate-500 text-sm">正在加载评估报告...</p>
+          <p className="text-slate-500 text-sm">
+            {isGenerating ? '评估报告正在生成中，预计1-2分钟...' : '正在加载评估报告...'}
+          </p>
+          {isGenerating && (
+            <p className="text-xs text-slate-400">系统会自动刷新，请稍候</p>
+          )}
         </div>
       </div>
     )

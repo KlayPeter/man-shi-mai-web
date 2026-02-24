@@ -10,6 +10,7 @@ import EditProfileModal from '@/components/profile/EditProfileModal'
 import UploadResumeModal from '@/components/profile/UploadResumeModal'
 import RedeemServiceModal from '@/components/profile/RedeemServiceModal'
 import RechargeModal from '@/components/profile/RechargeModal'
+import { getUserInfoAPI } from '@/api/user'
 
 const MAX_RESUME_COUNT = 5
 
@@ -52,8 +53,16 @@ export default function ProfilePage() {
     } catch { /* ignore */ }
   }, [userStore])
 
+  // 获取最新用户信息（包括剩余次数）
+  const fetchUserInfo = useCallback(async () => {
+    try {
+      const userInfo: any = await getUserInfoAPI()
+      userStore.updateUserInfo(userInfo)
+    } catch { /* ignore */ }
+  }, [userStore])
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => { fetchResumes() }, [])
+  useEffect(() => { fetchResumes(); fetchUserInfo() }, [])
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { fetchRecords(activeRecordTab) }, [activeRecordTab])
 

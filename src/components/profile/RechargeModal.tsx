@@ -39,6 +39,7 @@ export default function RechargeModal({ open, onClose, onRecharged }: Props) {
 
   const balance = userStore.userInfo?.maiCoinBalance ?? 0
   const redeemableCount = Math.floor(balance / REDEEM_COST)
+  const hasUsedMockPayment = (userStore.userInfo as any)?.hasUsedVirtualPayment ?? false
 
   const selectedPlan = rechargePlans.find(p => p.id === selectedPlanId) || {
     id: CUSTOM_RECHARGE_ID,
@@ -70,6 +71,10 @@ export default function RechargeModal({ open, onClose, onRecharged }: Props) {
   }
 
   const handleMockPayment = async () => {
+    if (hasUsedMockPayment) {
+      toast({ title: '模拟支付已使用', description: '每个用户仅限使用一次模拟支付', color: 'yellow' })
+      return
+    }
     setLoading(true)
     await new Promise(r => setTimeout(r, 1500))
     try {
@@ -88,7 +93,13 @@ export default function RechargeModal({ open, onClose, onRecharged }: Props) {
       onRecharged?.()
       setTimeout(() => onClose(), 2000)
     } catch (e: any) {
-      toast({ title: '支付失败', description: e.message || '请稍后重试', color: 'red' })
+      const errorMsg = e?.response?.data?.message || e?.message || '请稍后重试'
+      if (errorMsg.includes('已使用') || errorMsg.includes('仅限') || e?.response?.status === 403) {
+        userStore.updateUserInfo({ hasUsedVirtualPayment: true })
+        toast({ title: '模拟支付已使用', description: '每个用户仅限使用一次模拟支付', color: 'yellow' })
+      } else {
+        toast({ title: '支付失败', description: errorMsg, color: 'red' })
+      }
     } finally {
       setLoading(false)
     }
@@ -245,6 +256,14 @@ export default function RechargeModal({ open, onClose, onRecharged }: Props) {
                     <Icon name="i-heroicons-check-circle" className="w-10 h-10 text-emerald-500" />
                     <p className="text-base font-semibold">支付成功</p>
                     <p className="text-xs">权益已更新，可立即使用</p>
+                  </div>
+                ) : hasUsedMockPayment ? (
+                  <div className="flex flex-col items-center justify-center h-full gap-3">
+                    <div className="w-32 h-32 bg-gray-100 rounded-lg flex items-center justify-center">
+                      <Icon name="i-heroicons-x-circle" className="w-20 h-20 text-gray-300" />
+                    </div>
+                    <p className="text-sm text-gray-500">模拟支付已使用</p>
+                    <p className="text-xs text-gray-400">每个用户仅限一次免费体验</p>
                   </div>
                 ) : (
                   <div className="flex flex-col items-center justify-center h-full gap-3">

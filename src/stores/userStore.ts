@@ -23,6 +23,7 @@ interface UserInfo {
   updatedAt?: string
   avatar?: string
   email?: string
+  hasUsedVirtualPayment?: boolean
 }
 
 interface UserState {

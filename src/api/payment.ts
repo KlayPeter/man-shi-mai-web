@@ -11,3 +11,7 @@ export const getPaymentStatusAPI = (orderId: string) => {
 export const getWalletBalanceAPI = () => {
   return request.get('/payment/wallet/balance')
 }
+
+export const mockPaymentSuccessAPI = (orderId: string) => {
+  return request.post('/payment/mock-success', { orderId })
+}
