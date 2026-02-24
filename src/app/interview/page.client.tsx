@@ -120,6 +120,9 @@ export default function InterviewPageContent() {
       useInterviewStore.persist.rehydrate()
     }
 
+    // 刷新用户信息，确保剩余次数是最新的
+    refreshUserInfo()
+
     // 等待 zustand persist 从 localStorage 恢复状态
     const timer = setTimeout(() => {
       if (resultId && isHistory) {
@@ -141,31 +144,28 @@ export default function InterviewPageContent() {
             const isRecent = timeDiff < 10 * 60 * 1000 // 10分钟内
 
             if (isRecent) {
-              // 恢复岗位信息到 store
+              // 恢复岗位信息到 store - 直接调用 setter 而不是 rehydrate
               if (activeInterview.positionData) {
                 const { company, positionName, minSalary, maxSalary, jd } = activeInterview.positionData
-                // 确保薪资值在有效范围内 (0-9999)
                 const validMinSalary = Math.min(9999, Math.max(0, Number(minSalary) || 0))
                 const validMaxSalary = Math.min(9999, Math.max(0, Number(maxSalary) || 0))
 
-                // 构建完整的岗位数据
-                const positionData = {
-                  ...interviewStore.selectedPosition,
+                // 直接调用 setter 设置数据
+                interviewStore.setSelectedPosition({
                   company,
                   positionName,
                   minSalary: validMinSalary,
                   maxSalary: validMaxSalary,
                   jd
-                }
-
-                interviewStore.setSelectedPosition(positionData)
+                })
               }
+
               if (activeInterview.resumeId) {
                 interviewStore.setResumeId(activeInterview.resumeId)
               }
 
-              // 清除旧状态
-              clearActiveInterview()
+              // 注意：不要在这里清除 active-interview，等押题成功后再清除
+              // 这样如果再次刷新，还能继续恢复
 
               toast({
                 title: '检测到中断的押题生成',
@@ -177,6 +177,7 @@ export default function InterviewPageContent() {
               setTimeout(() => {
                 // 验证岗位数据是否已恢复
                 const currentState = useInterviewStore.getState()
+
                 if (!currentState.selectedPosition?.positionName) {
                   toast({
                     title: '恢复失败',
@@ -190,8 +191,22 @@ export default function InterviewPageContent() {
                 if (step !== 'progress') {
                   updateQuery({ step: 'progress' })
                 }
-                // 触发重新生成
-                setTimeout(() => startResumeQuiz(), 500)
+                // 触发重新生成，直接传递恢复的数据
+                setTimeout(() => {
+                  if (activeInterview.positionData) {
+                    const { company, positionName, minSalary, maxSalary, jd } = activeInterview.positionData
+                    startResumeQuiz({
+                      company,
+                      positionName,
+                      minSalary: Number(minSalary),
+                      maxSalary: Number(maxSalary),
+                      jd,
+                      resumeId: activeInterview.resumeId
+                    })
+                  } else {
+                    startResumeQuiz()
+                  }
+                }, 500)
               }, 500)
               return
             } else {
@@ -414,7 +429,22 @@ export default function InterviewPageContent() {
     }
   }
 
-  const startResumeQuiz = async () => {
+  const startResumeQuiz = async (overrideData?: {
+    company?: string
+    positionName?: string
+    minSalary?: number
+    maxSalary?: number
+    jd?: string
+    resumeId?: string | null
+  }) => {
+    // 优先使用传入的参数，其次使用 local state，最后使用 store
+    const currentCompany = overrideData?.company || company || interviewStore.selectedPosition?.company || '未指定公司'
+    const currentPositionName = overrideData?.positionName || positionName || interviewStore.selectedPosition?.positionName || ''
+    const currentMinSalary = overrideData?.minSalary?.toString() || minSalary || String(interviewStore.selectedPosition?.minSalary || '')
+    const currentMaxSalary = overrideData?.maxSalary?.toString() || maxSalary || String(interviewStore.selectedPosition?.maxSalary || '')
+    const currentJd = overrideData?.jd || jd || interviewStore.selectedPosition?.jd || ''
+    const currentResumeId = overrideData?.resumeId !== undefined ? overrideData.resumeId : interviewStore.resumeId
+
     updateQuery({ step: 'progress' })
     setProgressValue(0)
     setProgressLabel('正在准备...')
@@ -428,33 +458,30 @@ export default function InterviewPageContent() {
     timerRef.current = setInterval(() => setElapsedTime(t => t + 1), 1000)
 
     // 获取并验证薪资值，确保在有效范围内
-    const rawMinSalary = interviewStore.selectedPosition?.minSalary
-    const rawMaxSalary = interviewStore.selectedPosition?.maxSalary
-    const validMinSalary = Math.min(9999, Math.max(0, Number(rawMinSalary) || 0))
-    const validMaxSalary = Math.min(9999, Math.max(0, Number(rawMaxSalary) || 0))
+    const validMinSalary = Math.min(9999, Math.max(0, Number(currentMinSalary) || 0))
+    const validMaxSalary = Math.min(9999, Math.max(0, Number(currentMaxSalary) || 0))
 
     const params = {
-      resumeId: interviewStore.resumeId,
+      resumeId: currentResumeId,
       resumeContent: interviewStore.resumeText || resumeText,
-      company: interviewStore.selectedPosition?.company || '未指定公司',
-      positionName: interviewStore.selectedPosition?.positionName || '',
+      company: currentCompany,
+      positionName: currentPositionName,
       minSalary: validMinSalary,
       maxSalary: validMaxSalary,
-      jd: interviewStore.selectedPosition?.jd || '',
+      jd: currentJd,
       requestId: crypto.randomUUID()
     }
 
-    // 保存押题进行状态，包含岗位信息（保存数字类型的薪资）
-    const currentPosition = interviewStore.selectedPosition
+    // 保存押题进行状态，使用实际的数据而不是从 store 读取
     saveActiveInterview('resume-quiz-' + params.requestId, 'resume-quiz', serviceType, {
       positionData: {
-        company: currentPosition?.company || '',
-        positionName: currentPosition?.positionName || '',
-        minSalary: Number(currentPosition?.minSalary) || 0,
-        maxSalary: Number(currentPosition?.maxSalary) || 0,
-        jd: currentPosition?.jd || ''
+        company: currentCompany,
+        positionName: currentPositionName,
+        minSalary: validMinSalary,
+        maxSalary: validMaxSalary,
+        jd: currentJd
       },
-      resumeId: params.resumeId
+      resumeId: currentResumeId
     })
 
     const connection = ssePost('/interview/resume/quiz/stream', params, {
