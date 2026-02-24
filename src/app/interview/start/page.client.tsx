@@ -107,7 +107,14 @@ export default function InterviewStartPageContent() {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    resetStore?.()
+    // 只在没有进行中的面试时才重置
+    const currentState = useInterviewStore.getState()
+    const hasActiveInterview = currentState.sessionId &&
+      (currentState.interviewStatus === 'in_progress' || currentState.interviewStatus === 'starting')
+
+    if (!hasActiveInterview) {
+      resetStore?.()
+    }
     fetchResumes()
   }, [])
 

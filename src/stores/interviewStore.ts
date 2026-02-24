@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { persist, createJSONStorage } from 'zustand/middleware'
 
 interface Position {
   category?: string
@@ -241,7 +241,9 @@ export const useInterviewStore = create<InterviewState>()(
       }
     }),
     {
-      name: 'interview-storage'
+      name: 'interview-storage',
+      storage: createJSONStorage(() => localStorage),
+      skipHydration: false,
     }
   )
 )
