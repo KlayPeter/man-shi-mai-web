@@ -10,7 +10,7 @@ export default function Footer() {
   const [copySuccess, setCopySuccess] = useState(false)
 
   const copyWeChat = async () => {
-    const wechatId = 'LGD_Sunday'
+    const wechatId = 'mmx13025593963'
     try {
       await navigator.clipboard.writeText(wechatId)
       setCopySuccess(true)
@@ -38,10 +38,20 @@ export default function Footer() {
       <div className="container px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           <div>
-            <h3 className="text-sm font-semibold text-neutral-900 mb-4">关于我们</h3>
+            <h3 className="text-sm font-semibold text-neutral-900 mb-4">
+              关于我们
+            </h3>
             <div className="flex items-center gap-2 mb-3">
-              <SvgIcon name="hero" className="h-6 w-6" />
-              <span className="text-base font-semibold text-neutral-900">面试麦</span>
+              <Image
+                src="/logo.png"
+                alt="面试麦"
+                width={24}
+                height={24}
+                className="h-6 w-6"
+              />
+              <span className="text-base font-semibold text-neutral-900">
+                面试麦
+              </span>
             </div>
             <p className="text-sm text-neutral-600 leading-relaxed">
               极简三步，完成 AI 面试。专业的 AI 面试平台，帮助您更好地准备面试。
@@ -49,97 +59,71 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-neutral-900 mb-4">快速链接</h3>
+            <h3 className="text-sm font-semibold text-neutral-900 mb-4">
+              快速链接
+            </h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/interview/start" className="text-neutral-600 hover:text-neutral-900 transition-colors">
+                <Link
+                  href="/interview/start"
+                  className="text-neutral-600 hover:text-neutral-900 transition-colors"
+                >
                   开始 AI 面试
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="text-neutral-600 hover:text-neutral-900 transition-colors">
+                <Link
+                  href="/faq"
+                  className="text-neutral-600 hover:text-neutral-900 transition-colors"
+                >
                   常见问题
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-neutral-600 hover:text-neutral-900 transition-colors">
-                  联系我们
-                </Link>
-              </li>
-              <li>
-                <a
-                  href="https://www.lgdsunday.club/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-neutral-600 hover:text-neutral-900 transition-colors inline-flex items-center gap-1"
+                <Link
+                  href="/contact"
+                  className="text-neutral-600 hover:text-neutral-900 transition-colors"
                 >
-                  简历汪
-                  <Icon name="i-heroicons-arrow-top-right-on-square" className="w-3.5 h-3.5" />
-                </a>
+                  关于我们
+                </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-neutral-900 mb-4">联系我们</h3>
+            <h3 className="text-sm font-semibold text-neutral-900 mb-4">
+              关于我们
+            </h3>
             <ul className="space-y-3 text-sm">
               <li className="flex items-center gap-2 text-neutral-600">
-                <Icon name="i-heroicons-chat-bubble-left-right" className="w-4 h-4 text-green-600 shrink-0" />
+                <Icon
+                  name="i-heroicons-chat-bubble-left-right"
+                  className="w-4 h-4 text-green-600 shrink-0"
+                />
                 <span>微信：</span>
                 <button
                   onClick={copyWeChat}
                   className="font-mono hover:text-neutral-900 transition-colors"
                 >
-                  LGD_Sunday
+                  mmx13025593963
                 </button>
-                {copySuccess && <span className="text-green-600 text-xs">已复制</span>}
+                {copySuccess && (
+                  <span className="text-green-600 text-xs">已复制</span>
+                )}
               </li>
               <li className="flex items-center gap-2 text-neutral-600">
-                <Icon name="i-heroicons-envelope" className="w-4 h-4 text-blue-600 shrink-0" />
-                <a href="mailto:lgd_sunday@163.com" className="font-mono hover:text-neutral-900 transition-colors">
-                  lgd_sunday@163.com
+                <Icon
+                  name="i-heroicons-envelope"
+                  className="w-4 h-4 text-blue-600 shrink-0"
+                />
+                <a
+                  href="mailto:kt_mmxyy2377@qq.com"
+                  className="font-mono hover:text-neutral-900 transition-colors"
+                >
+                  kt_mmxyy2377@qq.com
                 </a>
               </li>
-              <li className="relative flex items-start gap-2 text-neutral-600 group">
-                <Icon name="i-heroicons-qr-code" className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />
-                <span className="cursor-pointer">关注公众号获取更多信息</span>
-                <div className="absolute bottom-full left-0 mb-2 opacity-0 transition-all duration-200 z-50 w-[520px] invisible group-hover:opacity-100 group-hover:visible">
-                  <div className="bg-white rounded-lg border border-gray-200 shadow-lg p-3">
-                    <Image
-                      src="/sunday-gong-zhong-hao.png"
-                      alt="微信公众号二维码"
-                      width={520}
-                      height={520}
-                      className="w-[520px] object-contain"
-                    />
-                    <p className="text-xs text-center text-neutral-600 mt-2 whitespace-nowrap">
-                      扫码关注公众号
-                    </p>
-                  </div>
-                  <div className="absolute top-full left-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-200"></div>
-                  <div className="absolute top-full left-4 -mt-px w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white"></div>
-                </div>
-              </li>
             </ul>
-          </div>
-
-          <div>
-            <h3 className="text-sm font-semibold text-neutral-900 mb-4">相关产品</h3>
-            <a
-              href="https://www.lgdsunday.club/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900 transition-colors group"
-            >
-              <div className="w-10 h-10 rounded-lg bg-primary-50 flex items-center justify-center group-hover:bg-primary-100 transition-colors">
-                <Icon name="i-heroicons-document-text" className="w-5 h-5 text-primary-600" />
-              </div>
-              <div>
-                <div className="font-semibold text-neutral-900">简历汪</div>
-                <div className="text-xs text-neutral-500">免费在线制作简历</div>
-              </div>
-              <Icon name="i-heroicons-arrow-top-right-on-square" className="w-4 h-4 ml-auto text-neutral-400 group-hover:text-neutral-600" />
-            </a>
           </div>
         </div>
 
@@ -158,11 +142,17 @@ export default function Footer() {
               </a>
             </div>
             <div className="flex items-center gap-4">
-              <Link href="/agreement" className="hover:text-neutral-700 transition-colors">
+              <Link
+                href="/agreement"
+                className="hover:text-neutral-700 transition-colors"
+              >
                 用户协议
               </Link>
               <span>|</span>
-              <Link href="/policy" className="hover:text-neutral-700 transition-colors">
+              <Link
+                href="/policy"
+                className="hover:text-neutral-700 transition-colors"
+              >
                 隐私政策
               </Link>
             </div>

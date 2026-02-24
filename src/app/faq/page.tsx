@@ -10,7 +10,7 @@ const categories = [
   { key: 'usage', label: '使用指南' },
   { key: 'features', label: '功能特性' },
   { key: 'pricing', label: '价格与订阅' },
-  { key: 'security', label: '隐私与安全' }
+  { key: 'security', label: '隐私与安全' },
 ]
 
 const faqs = [
@@ -23,7 +23,7 @@ const faqs = [
 • <strong>岗位级知识图谱</strong>：结合行业语料、JD 解析与经验库，生成贴合场景的面试问题
 • <strong>多轮追问与深挖</strong>：动态生成追问与反问，评估你的深度思考与沟通表达能力
 • <strong>结构化评估报告</strong>：覆盖 STAR 模型、技能矩阵、风险点与改进建议，让你清楚了解自己的优势和不足
-• <strong>真实公司风格</strong>：按公司/岗位/等级定制问法与偏好，模拟真实面试氛围`
+• <strong>真实公司风格</strong>：按公司/岗位/等级定制问法与偏好，模拟真实面试氛围`,
   },
   {
     category: 'general',
@@ -36,7 +36,7 @@ const faqs = [
 • <strong>专业服务类</strong>：律师、医生、咨询顾问等
 • <strong>其他职业</strong>：持续扩展中
 
-你可以根据目标岗位设置专属的面试场景和题库。`
+你可以根据目标岗位设置专属的面试场景和题库。`,
   },
   {
     category: 'usage',
@@ -52,7 +52,7 @@ const faqs = [
 <strong>第三步：获得评估与计划</strong>
 查看结构化报告与提升建议，系统会为你生成 7 天强化练习计划。
 
-你可以使用微信登录快速注册账号，也可以使用邮箱注册。注册后即可免费体验基础功能。`
+你可以使用微信登录快速注册账号，也可以使用邮箱注册。注册后即可免费体验基础功能。`,
   },
   {
     category: 'usage',
@@ -63,7 +63,7 @@ const faqs = [
 • <strong>在线编辑</strong>：如果暂时没有简历文件，也可以直接在平台上手动填写基本信息和工作经历
 • <strong>粘贴文本</strong>：复制现有简历内容，粘贴到文本框中，系统会自动解析关键信息
 
-导入简历后，系统会自动提取关键信息（如工作经历、技能、项目经验等），并根据这些信息为你定制个性化的面试问题和评估标准。`
+导入简历后，系统会自动提取关键信息（如工作经历、技能、项目经验等），并根据这些信息为你定制个性化的面试问题和评估标准。`,
   },
   {
     category: 'features',
@@ -76,7 +76,7 @@ const faqs = [
 • <strong>改进建议</strong>：提供针对性的提升建议和练习方向
 • <strong>7 天强化计划</strong>：根据你的表现生成个性化的练习计划，帮助你在短时间内快速提升
 
-报告支持一键导出为 PDF 格式，方便你保存和分享。`
+报告支持一键导出为 PDF 格式，方便你保存和分享。`,
   },
   {
     category: 'features',
@@ -87,7 +87,7 @@ const faqs = [
 • <strong>语音模式</strong>：支持语音输入和回答，系统会分析你的语速、语调、停顿等，给出相应的反馈
 • <strong>视频模式</strong>：通过摄像头进行视频面试模拟，系统会分析你的表情、肢体语言、眼神交流等非语言表达
 
-这些功能都是可选的，你可以根据自己的需求选择使用。语音和视频分析功能可以帮助你全面了解自己的表现，包括语言和非语言方面的表现。`
+这些功能都是可选的，你可以根据自己的需求选择使用。语音和视频分析功能可以帮助你全面了解自己的表现，包括语言和非语言方面的表现。`,
   },
   {
     category: 'features',
@@ -99,7 +99,7 @@ const faqs = [
 • <strong>难度级别调整</strong>：根据你的经验水平，调整面试的难度级别
 • <strong>题目库补充</strong>：可以添加自定义题目，或者从我们的题库中选择特定类型的题目
 
-这些定制功能让你能够针对性地准备特定的面试，提高面试成功率。`
+这些定制功能让你能够针对性地准备特定的面试，提高面试成功率。`,
   },
   {
     category: 'pricing',
@@ -120,7 +120,7 @@ const faqs = [
 • 专家建议和一对一指导（可选）
 • 数据导出和长期记录
 
-我们提供多种订阅方案，你可以根据需求选择合适的套餐。首次注册用户通常可以享受免费试用期。`
+我们提供多种订阅方案，你可以根据需求选择合适的套餐。首次注册用户通常可以享受免费试用期。`,
   },
   {
     category: 'pricing',
@@ -135,7 +135,7 @@ const faqs = [
 • 如果遇到技术问题或服务异常，我们会在 24 小时内处理并可能提供相应补偿
 • 具体退款政策请参考《服务协议》
 
-如有任何疑问，请通过 <a href="/contact" class="text-primary-600 hover:underline">联系我们</a> 页面联系客服。`
+如有任何疑问，请通过 <a href="/contact" class="text-primary-600 hover:underline">联系我</a> 页面联系客服。`,
   },
   {
     category: 'security',
@@ -158,7 +158,7 @@ const faqs = [
 • 遵循相关法律法规要求
 • 配合监管和司法机关的合法要求
 
-更多详情请查看我们的《隐私政策》和《服务协议》。`
+更多详情请查看我们的《隐私政策》和《服务协议》。`,
   },
   {
     category: 'security',
@@ -179,7 +179,7 @@ const faqs = [
 • 默认情况下，数据会在你的账户内保留，直到你主动删除
 • 账户注销后，所有数据将被永久删除
 
-如果你对数据使用有任何担忧，可以关闭语音和视频功能，仅使用文本模式。`
+如果你对数据使用有任何担忧，可以关闭语音和视频功能，仅使用文本模式。`,
   },
   {
     category: 'general',
@@ -203,7 +203,7 @@ const faqs = [
 • 在 AI 练习有一定基础后，可以找真人朋友或导师进行模拟面试
 • 两者结合使用，能够更全面地提升面试能力
 
-面试麦的目标是帮助你建立扎实的基础，让你在面对真人面试时更加自信。`
+面试麦的目标是帮助你建立扎实的基础，让你在面对真人面试时更加自信。`,
   },
   {
     category: 'usage',
@@ -219,8 +219,8 @@ const faqs = [
 • 面试内容较长，需要更多处理时间
 • 系统繁忙
 
-如果超过 5 分钟仍未生成，请刷新页面或联系客服。通常情况下，报告都是即时生成的。`
-  }
+如果超过 5 分钟仍未生成，请刷新页面或联系客服。通常情况下，报告都是即时生成的。`,
+  },
 ]
 
 export default function FAQPage() {
@@ -240,7 +240,7 @@ export default function FAQPage() {
       result = result.filter(
         (item) =>
           item.question.toLowerCase().includes(query) ||
-          item.answer.toLowerCase().includes(query)
+          item.answer.toLowerCase().includes(query),
       )
     }
 
@@ -253,7 +253,7 @@ export default function FAQPage() {
       usage: 'bg-green-100',
       features: 'bg-purple-100',
       pricing: 'bg-amber-100',
-      security: 'bg-red-100'
+      security: 'bg-red-100',
     }
     return colors[category] || 'bg-gray-100'
   }
@@ -264,7 +264,7 @@ export default function FAQPage() {
       usage: 'text-green-600',
       features: 'text-purple-600',
       pricing: 'text-amber-600',
-      security: 'text-red-600'
+      security: 'text-red-600',
     }
     return colors[category] || 'text-gray-600'
   }
@@ -275,7 +275,7 @@ export default function FAQPage() {
       usage: 'i-heroicons-bolt',
       features: 'i-heroicons-sparkles',
       pricing: 'i-heroicons-gift',
-      security: 'i-heroicons-shield-check'
+      security: 'i-heroicons-shield-check',
     }
     return icons[category] || 'i-heroicons-question-mark-circle'
   }
@@ -310,17 +310,17 @@ export default function FAQPage() {
   }
 
   const toggleItem = (index: number) => {
-    setOpenItems(prev =>
-      prev.includes(index)
-        ? prev.filter(i => i !== index)
-        : [...prev, index]
+    setOpenItems((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index],
     )
   }
 
   return (
     <section className="container py-12 px-4">
       <div className="mb-8 text-center">
-        <h1 className="text-3xl md:text-4xl font-bold text-neutral-900">常见问题</h1>
+        <h1 className="text-3xl md:text-4xl font-bold text-neutral-900">
+          常见问题
+        </h1>
         <p className="mt-3 text-neutral-600 max-w-2xl mx-auto">
           关于面试麦 AI 面试平台的常见问题解答，帮助你快速了解和使用我们的服务
         </p>
@@ -336,7 +336,10 @@ export default function FAQPage() {
               placeholder="搜索问题..."
               className="w-full px-4 py-3 pl-12 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             />
-            <Icon name="i-heroicons-magnifying-glass" className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <Icon
+              name="i-heroicons-magnifying-glass"
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
+            />
           </div>
         </div>
 
@@ -369,7 +372,7 @@ export default function FAQPage() {
                 <div className="flex items-start gap-3 flex-1 pr-4">
                   <div
                     className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center mt-0.5 ${getCategoryColor(
-                      item.category
+                      item.category,
                     )}`}
                   >
                     <Icon
@@ -393,7 +396,9 @@ export default function FAQPage() {
                   <div className="pl-11">
                     <div
                       className="prose prose-sm max-w-none text-neutral-600"
-                      dangerouslySetInnerHTML={{ __html: formatAnswer(item.answer) }}
+                      dangerouslySetInnerHTML={{
+                        __html: formatAnswer(item.answer),
+                      }}
                     />
                   </div>
                 </div>
@@ -404,23 +409,31 @@ export default function FAQPage() {
 
         {filteredFaqs.length === 0 && (
           <div className="text-center py-12">
-            <Icon name="i-heroicons-question-mark-circle" className="w-16 h-16 text-neutral-300 mx-auto mb-4" />
+            <Icon
+              name="i-heroicons-question-mark-circle"
+              className="w-16 h-16 text-neutral-300 mx-auto mb-4"
+            />
             <p className="text-neutral-500">未找到相关问题</p>
-            <p className="text-sm text-neutral-400 mt-2">请尝试使用其他关键词搜索</p>
+            <p className="text-sm text-neutral-400 mt-2">
+              请尝试使用其他关键词搜索
+            </p>
           </div>
         )}
 
         <div className="mt-12 bg-gradient-to-br from-primary-50 to-blue-50 rounded-xl border border-primary-200 p-8 text-center">
-          <Icon name="i-heroicons-chat-bubble-left-right" className="w-12 h-12 text-primary-600 mx-auto mb-4" />
+          <Icon
+            name="i-heroicons-chat-bubble-left-right"
+            className="w-12 h-12 text-primary-600 mx-auto mb-4"
+          />
           <h2 className="text-xl font-semibold text-neutral-900 mb-2">
             还有其他问题？
           </h2>
           <p className="text-neutral-600 mb-6">
-            如果这里没有找到你想要的答案，欢迎通过以下方式联系我们
+            如果这里没有找到你想要的答案，欢迎通过以下方式联系我
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button color="primary" size="lg" to="/contact">
-              联系我们
+              联系我
             </Button>
             <Button color="gray" variant="ghost" size="lg" to="/">
               返回首页

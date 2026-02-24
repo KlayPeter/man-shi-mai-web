@@ -53,8 +53,8 @@ export default function PolicyPage() {
         <h2>七、联系与投诉</h2>
         <p>
           如需咨询或投诉，请通过站点页面的联系方式与我们取得联系：
-          <a className="text-primary-600 hover:underline ml-1" href="mailto:lgd_sunday@163.com">
-            lgd_sunday@163.com
+          <a className="text-primary-600 hover:underline ml-1" href="mailto:kt_mmxyy2377@qq.com">
+            kt_mmxyy2377@qq.com
           </a>
         </p>
       </div>

@@ -13,7 +13,8 @@ export default function HomeCTA() {
               准备好体验全链路 AI 面试服务了吗？
             </h3>
             <p className="mx-auto mt-6 text-lg leading-8 text-neutral-300">
-              从押题预测到实战模拟，再到综合评估，3 大服务全覆盖。现在开始，3分钟完成首次押题，立即获得高分参考答案。
+              从押题预测到实战模拟，再到综合评估，3
+              大服务全覆盖。现在开始，3分钟完成首次押题，立即获得高分参考答案。
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <Button
@@ -31,7 +32,7 @@ export default function HomeCTA() {
                 to="/contact"
                 className="px-8 font-medium text-white hover:bg-white/10"
               >
-                联系我们
+                联系我
               </Button>
             </div>
           </div>

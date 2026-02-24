@@ -17,7 +17,8 @@ import {
   Settings, Bell, LogIn, UserPlus, HelpCircle, Phone,
   MapPin, Calendar, Tag, Hash, Link, Image, Video,
   Mic, MicOff, Camera, Monitor, Smartphone, Tablet,
-  Menu, Briefcase, ArrowDown, ArrowUp, Map, Wallet,
+  Menu, Briefcase, ArrowDown, ArrowUp, Map, Wallet, Globe,
+  Forward, SpeakerWave, SpeakerXMark, Cpu,
   type LucideIcon
 } from 'lucide-react'
 
@@ -120,6 +121,11 @@ const iconMap: Record<string, LucideIcon> = {
   'i-heroicons-map': Map,
   'i-heroicons-presentation-chart-bar': BarChart3,
   'i-heroicons-wallet': Wallet,
+  'i-heroicons-globe-alt': Globe,
+  'i-heroicons-forward': Forward,
+  'i-heroicons-speaker-wave': SpeakerWave,
+  'i-heroicons-speaker-x-mark': SpeakerXMark,
+  'i-heroicons-cpu-chip': Cpu,
 }
 
 const Icon: React.FC<IconProps> = ({ name, className }) => {

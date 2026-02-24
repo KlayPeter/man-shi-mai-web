@@ -53,7 +53,13 @@ export default function AppHeader() {
       >
         <div className="container px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <SvgIcon name="hero" className="h-8 w-8" />
+            <Image
+              src="/logo.png"
+              alt="面试麦"
+              width={32}
+              height={32}
+              className="h-8 w-8"
+            />
             <Link href="/" className="text-xl font-semibold text-neutral-900">
               面试麦
             </Link>
