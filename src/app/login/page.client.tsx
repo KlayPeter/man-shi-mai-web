@@ -127,20 +127,38 @@ function LoginEmailPanel() {
         body: JSON.stringify(body),
       })
       const raw = await res.json()
-      const isSuccess = raw.code === 200 || (res.ok && !('code' in raw))
-      const payload =
-        (raw.data?.user && raw.data?.token) ? raw.data :
-        (raw.user && raw.token) ? raw :
-        null
 
-      if (isSuccess && payload) {
-        userStore.setIsLogin(true)
-        userStore.updateUserInfo(payload.user)
-        userStore.setToken(payload.token)
-        toast({ title: isRegister ? '注册成功' : '登录成功', color: 'green' })
-        const redirectRaw = searchParams.get('redirect')
-        const redirectTo = redirectRaw && redirectRaw.startsWith('/') && !redirectRaw.startsWith('//') ? redirectRaw : '/'
-        setTimeout(() => router.replace(redirectTo), 500)
+      const isSuccess = raw.code === 200 || (res.ok && !('code' in raw))
+
+      if (isSuccess) {
+        if (isRegister) {
+          // 注册成功：只需要成功响应，不需要 token
+          toast({ title: '注册成功', description: '请使用邮箱和密码登录', color: 'green' })
+          // 切换到登录模式
+          setIsRegister(false)
+          setPassword('')
+          setUsername('')
+        } else {
+          // 登录成功：需要 token 和用户信息
+          const payload =
+            (raw.data?.user && raw.data?.token) ? raw.data :
+            (raw.user && raw.token) ? raw :
+            null
+
+          if (payload) {
+            userStore.setIsLogin(true)
+            userStore.updateUserInfo(payload.user)
+            userStore.setToken(payload.token)
+            toast({ title: '登录成功', color: 'green' })
+            const redirectRaw = searchParams.get('redirect')
+            const redirectTo = redirectRaw && redirectRaw.startsWith('/') && !redirectRaw.startsWith('//') ? redirectRaw : '/'
+            setTimeout(() => router.replace(redirectTo), 500)
+          } else {
+            const msg = '登录响应格式错误'
+            setError(msg)
+            toast({ title: '登录失败', description: msg, color: 'red' })
+          }
+        }
       } else {
         const msg = raw.message || raw.error || (isRegister ? '注册失败，请重试' : '邮箱或密码错误')
         setError(msg)

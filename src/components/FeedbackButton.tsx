@@ -12,7 +12,6 @@ export default function FeedbackButton() {
     if (!feedback.trim()) return
 
     // TODO: 实现反馈提交逻辑
-    console.log('反馈内容:', feedback)
     setSubmitted(true)
     setTimeout(() => {
       setShowFeedback(false)

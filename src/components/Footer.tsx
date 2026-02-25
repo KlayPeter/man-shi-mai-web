@@ -39,7 +39,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           <div>
             <h3 className="text-sm font-semibold text-neutral-900 mb-4">
-              关于我们
+              关于我
             </h3>
             <div className="flex items-center gap-2 mb-3">
               <Image
@@ -84,7 +84,7 @@ export default function Footer() {
                   href="/contact"
                   className="text-neutral-600 hover:text-neutral-900 transition-colors"
                 >
-                  关于我们
+                  关于我
                 </Link>
               </li>
             </ul>
@@ -92,7 +92,7 @@ export default function Footer() {
 
           <div>
             <h3 className="text-sm font-semibold text-neutral-900 mb-4">
-              关于我们
+              关于我
             </h3>
             <ul className="space-y-3 text-sm">
               <li className="flex items-center gap-2 text-neutral-600">
@@ -131,15 +131,6 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-neutral-500">
             <div className="flex flex-col md:flex-row items-center gap-4">
               <p>© {new Date().getFullYear()} 面试麦 · AI 面试平台</p>
-              <span className="hidden md:inline">|</span>
-              <a
-                href="https://beian.miit.gov.cn/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-neutral-700 transition-colors"
-              >
-                鲁 ICP 备 2025206060 号-1
-              </a>
             </div>
             <div className="flex items-center gap-4">
               <Link

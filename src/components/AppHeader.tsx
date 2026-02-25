@@ -41,7 +41,8 @@ export default function AppHeader() {
     router.push('/')
   }
 
-  const isActive = (path: string) => pathname === path || pathname.startsWith(path + '/')
+  const isActive = (path: string) =>
+    pathname === path || pathname.startsWith(path + '/')
   const loginHref = `/login${pathname && pathname !== '/' ? `?redirect=${encodeURIComponent(pathname)}` : ''}`
 
   return (
@@ -71,7 +72,9 @@ export default function AppHeader() {
             <Link
               href="/interview/start"
               className={`transition-colors ${
-                isActive('/interview/start') ? 'text-neutral-900 font-bold' : 'hover:text-neutral-900'
+                isActive('/interview/start')
+                  ? 'text-neutral-900 font-bold'
+                  : 'hover:text-neutral-900'
               }`}
             >
               开启 AI 服务
@@ -79,7 +82,9 @@ export default function AppHeader() {
             <Link
               href="/history"
               className={`transition-colors ${
-                isActive('/history') ? 'text-neutral-900 font-bold' : 'hover:text-neutral-900'
+                isActive('/history')
+                  ? 'text-neutral-900 font-bold'
+                  : 'hover:text-neutral-900'
               }`}
             >
               服务记录
@@ -87,7 +92,9 @@ export default function AppHeader() {
             <Link
               href="/profile?tab=redeem"
               className={`transition-colors ${
-                isActive('/profile') ? 'text-neutral-900 font-bold' : 'hover:text-neutral-900'
+                isActive('/profile')
+                  ? 'text-neutral-900 font-bold'
+                  : 'hover:text-neutral-900'
               }`}
             >
               兑换服务
@@ -95,7 +102,9 @@ export default function AppHeader() {
             <Link
               href="/faq"
               className={`transition-colors ${
-                isActive('/faq') ? 'text-neutral-900 font-bold' : 'hover:text-neutral-900'
+                isActive('/faq')
+                  ? 'text-neutral-900 font-bold'
+                  : 'hover:text-neutral-900'
               }`}
             >
               常见问题
@@ -103,10 +112,12 @@ export default function AppHeader() {
             <Link
               href="/contact"
               className={`transition-colors ${
-                isActive('/contact') ? 'text-neutral-900 font-bold' : 'hover:text-neutral-900'
+                isActive('/contact')
+                  ? 'text-neutral-900 font-bold'
+                  : 'hover:text-neutral-900'
               }`}
             >
-              关于我们
+              关于我
             </Link>
           </nav>
           <div className="flex items-center gap-2">
@@ -133,10 +144,15 @@ export default function AppHeader() {
                     />
                   ) : (
                     <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center">
-                      <Icon name="i-heroicons-user" className="w-5 h-5 text-primary-600" />
+                      <Icon
+                        name="i-heroicons-user"
+                        className="w-5 h-5 text-primary-600"
+                      />
                     </div>
                   )}
-                  <span className="text-sm font-medium">{userStore.userInfo.username || '未命名用户'}</span>
+                  <span className="text-sm font-medium">
+                    {userStore.userInfo.username || '未命名用户'}
+                  </span>
                   <Icon name="i-heroicons-chevron-down" className="w-4 h-4" />
                 </button>
                 {showUserMenu && (
@@ -146,7 +162,10 @@ export default function AppHeader() {
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       onClick={() => setShowUserMenu(false)}
                     >
-                      <Icon name="i-heroicons-user" className="w-4 h-4 inline mr-2" />
+                      <Icon
+                        name="i-heroicons-user"
+                        className="w-4 h-4 inline mr-2"
+                      />
                       个人中心
                     </Link>
                     <Link
@@ -154,7 +173,10 @@ export default function AppHeader() {
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       onClick={() => setShowUserMenu(false)}
                     >
-                      <Icon name="i-heroicons-chart-bar" className="w-4 h-4 inline mr-2" />
+                      <Icon
+                        name="i-heroicons-chart-bar"
+                        className="w-4 h-4 inline mr-2"
+                      />
                       服务记录
                     </Link>
                     <hr className="my-1" />
@@ -165,7 +187,10 @@ export default function AppHeader() {
                       }}
                       className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
-                      <Icon name="i-heroicons-arrow-left-on-rectangle" className="w-4 h-4 inline mr-2" />
+                      <Icon
+                        name="i-heroicons-arrow-left-on-rectangle"
+                        className="w-4 h-4 inline mr-2"
+                      />
                       退出登录
                     </button>
                   </div>
@@ -179,10 +204,16 @@ export default function AppHeader() {
       {showLogoutModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-            <h3 className="text-lg font-semibold mb-4">是否确定退出当前账号？</h3>
+            <h3 className="text-lg font-semibold mb-4">
+              是否确定退出当前账号？
+            </h3>
             <p className="text-gray-600 mb-6">未保存的面试进度可能不会保留。</p>
             <div className="flex gap-2 justify-end">
-              <Button color="gray" variant="ghost" onClick={() => setShowLogoutModal(false)}>
+              <Button
+                color="gray"
+                variant="ghost"
+                onClick={() => setShowLogoutModal(false)}
+              >
                 取消
               </Button>
               <Button color="primary" onClick={handleLogout}>

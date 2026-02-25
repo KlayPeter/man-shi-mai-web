@@ -35,7 +35,7 @@ export default function ContactPage() {
   return (
     <section className="container py-12 px-4">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-neutral-900">关于我们</h1>
+        <h1 className="text-3xl font-bold text-neutral-900">关于我</h1>
         <p className="mt-2 text-sm text-neutral-500">
           有任何问题或建议，欢迎通过以下方式联系我们
         </p>

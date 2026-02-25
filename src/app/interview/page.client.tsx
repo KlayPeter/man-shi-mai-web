@@ -105,6 +105,15 @@ export default function InterviewPageContent() {
     router.push(`/interview?${params.toString()}`)
   }
 
+  // 生成兼容的 UUID
+  const generateUUID = () => {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = (Math.random() * 16) | 0
+      const v = c === 'x' ? r : (r & 0x3) | 0x8
+      return v.toString(16)
+    })
+  }
+
   const refreshUserInfo = async () => {
     try {
       const userInfo: any = await getUserInfoAPI()
@@ -469,7 +478,7 @@ export default function InterviewPageContent() {
       minSalary: validMinSalary,
       maxSalary: validMaxSalary,
       jd: currentJd,
-      requestId: crypto.randomUUID()
+      requestId: generateUUID()
     }
 
     // 保存押题进行状态，使用实际的数据而不是从 store 读取
